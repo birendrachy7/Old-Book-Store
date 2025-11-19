@@ -1,6 +1,6 @@
 # 📚 Old Book Store – Flask Web Application
 
-A complete web application built using **Flask**, **MySQL**, **HTML/CSS**, and **Bootstrap**, designed to allow users to **buy and sell old books online**.  
+A complete web application built using **Flask**, **MySQL**, **HTML/CSS**, designed to allow users to **buy and sell old books online**.  
 The project includes user authentication, book listings, wishlist, order processing, email verification, and an admin dashboard.
 
 ---
