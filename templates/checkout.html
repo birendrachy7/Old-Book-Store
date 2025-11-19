@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - {{ book.book_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <style>
+    .checkout-card {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  max-width: 550px;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.checkout-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.checkout-card h2 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+.book-summary p {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.book-summary span {
+  color: #007b5e;
+  font-weight: 600;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-form label {
+  font-weight: 600;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.3s ease;
+}
+
+.checkout-form input:focus,
+.checkout-form textarea:focus {
+  border-color: #007b5e;
+  outline: none;
+}
+
+.place-order-btn {
+  background-color: #007b5e;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.place-order-btn:hover {
+  background-color: #009f73;
+  transform: scale(1.03);
+}
+
+  </style>
+<!-- Navigation -->
+<section id="header">
+  <div id="logo">
+    <a href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="OldBookStore.com" />
+    </a>
+  </div>
+  <div>
+    <ul id="navbar">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('buy') }}">Buy</a></li>
+      <li><a href="{{ url_for('sell') }}">Sell</a></li>
+      {% if session.get('user_id') %}
+        <li><a href="{{ url_for('orders') }}">Orders</a></li>
+        <li><a href="{{ url_for('wishlist') }}">Wishlist</a></li>
+        <li><a href="{{ url_for('messages') }}">Messages</a></li>
+        {% if session.get('role') == 'admin' %}
+          <li><a href="{{ url_for('admin') }}">Admin</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login/Register</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</section>
+
+<!-- Checkout Section -->
+<section class="checkout-section" style="display: flex; justify-content: center; padding: 50px 20px;">
+  <div class="checkout-card">
+    <h2>🛒 Checkout: Cash on Delivery</h2>
+    <div class="book-summary">
+      <p><strong>Book:</strong> <span>{{ book.book_name }}</span></p>
+      <p><strong>Author:</strong> <span>{{ book.author }}</span></p>
+      <p><strong>Price:</strong> <span>Rs {{ book.selling_price }}</span></p>
+      <p><strong>Payment Method:</strong> <span>Cash on Delivery</span></p>
+    </div>
+
+    <hr>
+
+    <form action="{{ url_for('checkout', book_id=book.bookID) }}" method="POST" class="checkout-form">
+      <input type="hidden" name="payment_method" value="Cash on Delivery">
+
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" name="phone" placeholder="Enter 10-digit phone number"
+             pattern="[0-9]{10}" minlength="10" maxlength="10"
+             title="Please enter a valid 10-digit phone number" required>
+
+      <label for="address">Delivery Address</label>
+      <textarea id="address" name="address" placeholder="Enter your full address" rows="3" required></textarea>
+
+      <button type="submit" class="place-order-btn">Place Order</button>
+    </form>
+  </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer class="section-p1">
+  <div class="col">
+    <img class="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="OldBookStore Logo" />
+    <h4>Contact</h4>
+    <p><strong>Address:</strong> Dhangadhi, Kailali</p>
+    <p><strong>Phone:</strong> +977 9848562356 / +977 9848757575</p>
+    <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+  </div>
+</footer>
+
+<div class="Copyright" style="text-align:center; margin: 10px 0; font-size: 14px;">
+  &copy; www.OldBookStore.com All rights reserved.
+</div>
+
+</body>
+</html>
